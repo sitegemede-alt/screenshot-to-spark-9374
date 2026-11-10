@@ -78,7 +78,7 @@ function Index() {
   const [seen, setSeen] = useState<string[]>([]);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const reset = () => { setStep(0); setSeen([]); setAnswers({}); };
-  const score = QUESTIONS.reduce((s, q) => s + (q.options[answers[q.key]]?.correct ? 25 : 0), 0);
+  const score = QUESTIONS.reduce((s, q) => s + (q.options[answers[q.key] ?? -1]?.correct ? 25 : 0), 0);
 
   if (step === 0)
     return (
@@ -126,9 +126,10 @@ function Index() {
           )}
 
           {step >= 2 && step <= 5 && (() => {
-            const q = QUESTIONS[step - 2];
-            const chosen = answers[q.key];
-            const done = chosen !== undefined;
+            const q = QUESTIONS[step - 2]!;
+            const chosen = answers[q.key] ?? -1;
+            const picked = q.options[chosen];
+            const done = picked !== undefined;
             return (
               <>
                 <h2 className="font-display text-4xl font-bold text-primary">{q.title}</h2>
@@ -148,9 +149,9 @@ function Index() {
                   })}
                 </div>
                 {done && (
-                  <div className={`mt-5 rounded-lg border-l-4 bg-secondary p-4 ${q.options[chosen].correct ? "border-success" : "border-destructive"}`}>
-                    <b>{q.options[chosen].correct ? "Acertou! " : "Não é a melhor opção. "}</b>{q.options[chosen].feedback}
-                    {!q.options[chosen].correct && <p className="mt-2 text-sm text-muted-foreground">Resposta correta: {q.options.find((o) => o.correct)!.feedback}</p>}
+                  <div className={`mt-5 rounded-lg border-l-4 bg-secondary p-4 ${picked!.correct ? "border-success" : "border-destructive"}`}>
+                    <b>{picked!.correct ? "Acertou! " : "Não é a melhor opção. "}</b>{picked!.feedback}
+                    {!picked!.correct && <p className="mt-2 text-sm text-muted-foreground">Resposta correta: {q.options.find((o) => o.correct)!.feedback}</p>}
                   </div>
                 )}
                 <Button size="lg" className="mt-8 w-full" disabled={!done} onClick={() => setStep(step + 1)}>
@@ -171,7 +172,7 @@ function Index() {
                 {QUESTIONS.map((q) => (
                   <li key={q.key} className="flex justify-between border-b py-2">
                     <span>{q.title}</span>
-                    <span className={q.options[answers[q.key]]?.correct ? "text-success" : "text-destructive"}>{q.options[answers[q.key]]?.correct ? "+25" : "0"}</span>
+                    <span className={q.options[answers[q.key] ?? -1]?.correct ? "text-success" : "text-destructive"}>{q.options[answers[q.key] ?? -1]?.correct ? "+25" : "0"}</span>
                   </li>
                 ))}
               </ul>
