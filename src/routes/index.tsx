@@ -171,19 +171,24 @@ function Index() {
   if (step === 0)
     return (
       <main className="bg-hero flex min-h-screen flex-col items-center justify-center px-6 text-center text-primary-foreground">
-        <span className="mb-6 text-sm uppercase tracking-[0.3em] text-gold">Medicina Veterinária · Equinos</span>
-        <h1 className="font-display text-6xl font-bold md:text-8xl">EGUS <span className="text-gold">Simulator</span></h1>
-        <p className="mt-4 max-w-xl text-lg opacity-80">Simulador de atendimento clínico em equinos</p>
-        <Button size="lg" onClick={start} className="mt-10 h-14 bg-gold px-10 text-lg font-bold text-accent-foreground hover:bg-gold/90">Iniciar Simulação</Button>
+        <span className="eyebrow text-gold">Medicina Veterinária · Equinos</span>
+        <h1 className="mt-7 font-display text-6xl font-semibold leading-[0.9] md:text-8xl">
+          EGUS <span className="font-normal italic text-gold">Simulator</span>
+        </h1>
+        <p className="mt-6 max-w-md text-lg leading-relaxed text-primary-foreground/70">
+          Simulador de atendimento clínico em equinos
+        </p>
+        <Button size="lg" onClick={start} className="mt-10 h-14 bg-gold px-9 text-base font-semibold text-accent-foreground hover:bg-gold/90">Iniciar Simulação</Button>
+        <p className="eyebrow mt-12 text-primary-foreground/45">5 pacientes · 4 perguntas · 100 pontos</p>
       </main>
     );
 
   return (
     <main className="min-h-screen bg-background">
       <header className="bg-primary px-6 py-4 text-primary-foreground">
-        <div className="mx-auto flex max-w-3xl items-center justify-between">
-          <span className="font-display text-2xl font-bold">EGUS <span className="text-gold">Simulator</span></span>
-          <span className="text-sm opacity-80">Etapa {Math.min(step, 6)} de 6</span>
+        <div className="mx-auto flex max-w-3xl items-baseline justify-between">
+          <span className="font-display text-xl font-semibold tracking-tight">EGUS <span className="font-normal italic text-gold">Simulator</span></span>
+          <span className="eyebrow tabular-nums text-primary-foreground/60">Etapa {Math.min(step, 6)} / 6</span>
         </div>
       </header>
       <div className="h-1 bg-secondary"><div className="h-1 bg-gold transition-all" style={{ width: `${(step / 6) * 100}%` }} /></div>
@@ -192,18 +197,19 @@ function Index() {
         <div className="rounded-xl border bg-card p-6 shadow-card md:p-10">
           {step === 1 && (
             <>
-              <h2 className="font-display text-4xl font-bold text-primary">Caso clínico</h2>
-              <p className="mt-1 font-bold text-gold">Paciente: {current?.name}</p>
-              <p className="mt-4 text-lg">{current?.intro}</p>
-              <p className="mt-6 font-bold text-muted-foreground">Investigue a anamnese (clique em cada item):</p>
+              <h2 className="font-display text-4xl font-semibold text-primary md:text-5xl">Caso clínico</h2>
+              <p className="eyebrow mt-5 text-gold">Paciente</p>
+              <p className="mt-1.5 text-xl font-semibold text-foreground">{current?.name}</p>
+              <p className="mt-4 max-w-2xl text-lg leading-relaxed text-foreground/80">{current?.intro}</p>
+              <p className="eyebrow mt-8 text-muted-foreground">Investigue a anamnese — clique em cada item</p>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
                 {HISTORY.map((h) => {
                   const open = seen.includes(h.k);
                   return (
                     <button key={h.k} onClick={() => !open && setSeen([...seen, h.k])}
                       className={`rounded-lg border-2 p-4 text-left transition ${open ? "border-gold bg-secondary" : "border-border hover:border-primary"}`}>
-                      <div className="font-bold text-primary">{h.k}</div>
-                      <div className="mt-1 text-sm text-muted-foreground">{open ? h.v : "Toque para investigar"}</div>
+                      <div className="eyebrow text-primary/55">{h.k}</div>
+                      <div className={`mt-2 text-sm leading-relaxed ${open ? "text-foreground" : "italic text-muted-foreground"}`}>{open ? h.v : "Toque para investigar"}</div>
                     </button>
                   );
                 })}
@@ -221,26 +227,27 @@ function Index() {
             const done = picked !== undefined;
             return (
               <>
-                <h2 className="font-display text-4xl font-bold text-primary">{q.title}</h2>
+                <h2 className="font-display text-4xl font-semibold text-primary md:text-5xl">{q.title}</h2>
                 {q.image && (
-                  <div className="mt-5 flex aspect-video items-center justify-center rounded-lg border-2 border-dashed border-gold bg-secondary text-muted-foreground">
-                    Espaço reservado para imagem de gastroscopia
+                  <div className="mt-6 flex aspect-video items-center justify-center rounded-lg border-2 border-dashed border-gold bg-secondary">
+                    <span className="eyebrow text-muted-foreground">Espaço reservado para imagem de gastroscopia</span>
                   </div>
                 )}
-                <p className="mt-5 text-lg font-medium">{q.question}</p>
+                <p className="mt-6 text-xl font-semibold leading-snug text-foreground">{q.question}</p>
                 <div className="mt-4 grid gap-3">
                   {q.options.map((o, i) => {
                     const state = !done ? "border-border hover:border-primary" : o.correct ? "border-success bg-success/10" : i === chosen ? "border-destructive bg-destructive/10" : "border-border opacity-60";
                     return (
                       <button key={o.label} disabled={done} onClick={() => setAnswers({ ...answers, [q.key]: i })}
-                        className={`rounded-lg border-2 p-4 text-left font-medium transition ${state}`}>{o.label}</button>
+                        className={`rounded-lg border-2 p-4 text-left text-[0.95rem] leading-snug font-medium transition ${state}`}>{o.label}</button>
                     );
                   })}
                 </div>
                 {done && (
-                  <div className={`mt-5 rounded-lg border-l-4 bg-secondary p-4 ${picked!.correct ? "border-success" : "border-destructive"}`}>
-                    <b>{picked!.correct ? "Acertou! " : "Não é a melhor opção. "}</b>{picked!.feedback}
-                    {!picked!.correct && <p className="mt-2 text-sm text-muted-foreground">Resposta correta: {q.options.find((o) => o.correct)!.feedback}</p>}
+                  <div className={`mt-6 rounded-lg border-l-4 bg-secondary p-4 ${picked!.correct ? "border-success" : "border-destructive"}`}>
+                    <p className={`eyebrow mb-2 ${picked!.correct ? "text-success" : "text-destructive"}`}>{picked!.correct ? "Correto" : "Reveja"}</p>
+                    <p className="text-[0.95rem] leading-relaxed text-foreground">{picked!.feedback}</p>
+                    {!picked!.correct && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Resposta correta: {q.options.find((o) => o.correct)!.feedback}</p>}
                   </div>
                 )}
                 <Button size="lg" className="mt-8 w-full" disabled={!done} onClick={() => setStep(step + 1)}>
@@ -252,20 +259,21 @@ function Index() {
 
           {step === 6 && (
             <div className="text-center">
-              <h2 className="font-display text-4xl font-bold text-primary">Resultado</h2>
-              <div className="mx-auto mt-8 flex h-44 w-44 items-center justify-center rounded-full border-8 border-gold">
-                <span className="font-display text-6xl font-bold text-primary">{score}</span>
+              <h2 className="font-display text-4xl font-semibold text-primary md:text-5xl">Resultado</h2>
+              <div className="mx-auto mt-9 flex h-44 w-44 flex-col items-center justify-center rounded-full border-4 border-gold">
+                <span className="font-display text-6xl font-semibold tabular-nums text-primary">{score}</span>
+                <span className="eyebrow mt-1 text-muted-foreground">de 100</span>
               </div>
-              <p className="mt-6 font-display text-3xl font-bold text-gold">{rating(score)}</p>
+              <p className="mt-7 font-display text-3xl font-normal italic text-gold">{rating(score)}</p>
               <ul className="mx-auto mt-6 max-w-sm space-y-2 text-left">
                 {QUESTIONS.map((q) => (
-                  <li key={q.key} className="flex justify-between border-b py-2">
-                    <span>{q.title}</span>
-                    <span className={q.options[answers[q.key] ?? -1]?.correct ? "text-success" : "text-destructive"}>{q.options[answers[q.key] ?? -1]?.correct ? "+25" : "0"}</span>
+                  <li key={q.key} className="flex items-baseline justify-between border-b py-2">
+                    <span className="text-[0.95rem]">{q.title}</span>
+                    <span className={`font-mono text-sm tabular-nums ${q.options[answers[q.key] ?? -1]?.correct ? "text-success" : "text-destructive"}`}>{q.options[answers[q.key] ?? -1]?.correct ? "+25" : "0"}</span>
                   </li>
                 ))}
               </ul>
-              <Button size="lg" className="mt-8 h-12 bg-gold px-10 font-bold text-accent-foreground hover:bg-gold/90" onClick={reset}>Jogar novamente (novo caso)</Button>
+              <Button size="lg" className="mt-9 h-12 bg-gold px-9 font-semibold text-accent-foreground hover:bg-gold/90" onClick={reset}>Jogar novamente (novo caso)</Button>
             </div>
           )}
         </div>
