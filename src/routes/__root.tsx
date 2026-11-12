@@ -93,7 +93,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#102c50"/><path d="M17 53c1-12 7-18 14-23l-12 3-5-7 16-12 2-8 7 7c10 3 14 12 12 23l-4 17H17Z" fill="#e7b34c"/><path d="m31 14 1-8 7 7M38 16c7 5 10 13 8 22" fill="none" stroke="#102c50" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="22" r="2" fill="#102c50"/><path d="M18 54h31" stroke="#e7b34c" stroke-width="4" stroke-linecap="round"/></svg>')}`,
+      },
     ],
   }),
   shellComponent: RootShell,
