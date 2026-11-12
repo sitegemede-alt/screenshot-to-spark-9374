@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application rules
+- Keep clinical reference content in a shared browser-safe module and render the same lesion scale in the simulator and guide, so ESGD grading stays consistent without incorrectly grading EGGD.
+- Keep photographic assets illustrative and label generated photos; use explicitly labeled diagrams, not generated clinical endoscopy images, for lesion teaching.
