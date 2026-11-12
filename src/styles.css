@@ -58,6 +58,8 @@
   --color-ring: var(--ring);
   --color-gold: var(--gold);
   --color-success: var(--success);
+  --color-mucosa: var(--mucosa);
+  --color-lesion: var(--lesion);
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-sans: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -96,6 +98,9 @@
   --accent-foreground: oklch(0.22 0.06 258);
   --gold: oklch(0.78 0.13 80);
   --success: oklch(0.6 0.14 155);
+  --mucosa: oklch(0.88 0.055 30);
+  --lesion: oklch(0.5 0.17 25);
+  --photo-overlay: linear-gradient(90deg, oklch(0.18 0.02 150 / 0.9), oklch(0.18 0.02 150 / 0.48) 52%, oklch(0.18 0.02 150 / 0.05));
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.98 0 0);
   --border: oklch(0.9 0.015 250);
@@ -119,6 +124,8 @@
 }
 
 .dark {
+  --mucosa: oklch(0.75 0.065 30);
+  --lesion: oklch(0.5 0.17 25);
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.208 0.042 265.755);
@@ -151,6 +158,19 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+}
+
+.photo-shade { background: var(--photo-overlay); }
+.mucosa-diagram { background: var(--mucosa); }
+.mucosa-surface { display: flex; width: 100%; height: 65%; align-items: center; justify-content: center; gap: 8px; border-bottom: 8px solid var(--card); }
+.mucosa-surface span { display: none; border-radius: 50%; background: var(--lesion); }
+.mucosa-grade-1 { border-top: 10px solid var(--card); }
+.mucosa-grade-2 span { display: block; width: 10px; height: 8px; }
+.mucosa-grade-3 span { display: block; width: 32px; height: 12px; border-radius: 35%; }
+.mucosa-grade-4 span { display: block; width: 40px; height: 30px; border-radius: 30%; }
+
+@media (max-width: 640px) {
+  .photo-shade { background: oklch(0.18 0.02 150 / 0.6); }
 }
 
 @layer base {
